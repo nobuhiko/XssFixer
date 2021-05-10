@@ -1,0 +1,12 @@
+{
+  "name": "ec-cube/XssFixer",
+  "version": "1.0.0",
+  "description": "XSS脆弱性修正プラグイン",
+  "type": "eccube-plugin",
+  "require": {
+    "ec-cube/plugin-installer": "~0.0.7"
+  },
+  "extra": {
+    "code": "XssFixer"
+  }
+}
