@@ -23,7 +23,7 @@
                                 </p>
                                 <ul>
                                     <li>プラグイン有効化のタイミングで、修正ファイルをapp/template/admin/Order/mail_confirm.twigに設置します。</li>
-                                    <li>修正ファイルが適用できているかどうかは、適用ステータスをご確認ください。</li>
+                                    <li>修正ファイルが適用できているかどうかは、修正ファイル適用ステータスをご確認ください。</li>
                                     <li>適用された修正ファイルをダウンロードし、修正内容のご確認をいただくことも可能です。</li>
                                 </ul>
                             </div>
@@ -36,9 +36,16 @@
                         <div class="row">
                             <div class="col mb-2">
                                 {% if success %}
-                                    <span>修正ファイルは適用されています。</span>
+                                    <p>修正ファイルは正常に適用されました。</p>
+                                    <p>
+                                        <a href="https://www.ec-cube.net/news/detail.php?news_id=383" target="_blank">【重要】EC-CUBE 4.0系における緊急度「高」の脆弱性発覚と対応のお願い</a>を参照し、攻撃された可能性の確認の実施を御願いいたします。
+                                    </p>
                                 {% else %}
-                                    <span>修正ファイルの適用に失敗しています。</span>
+                                    <p>修正ファイルの適用に失敗しています。</p>
+                                    <p>プラグインを無効化し、再度有効化してください。<br>解決しない場合は、お問い合わせフォームまでご相談ください。</p>
+                                    <p>
+                                        お問合せフォーム：<a href="https://www.ec-cube.net/contact/" target="_blank">https://www.ec-cube.net/contact/</a>
+                                    </p>
                                 {% endif %}
                             </div>
                         </div>

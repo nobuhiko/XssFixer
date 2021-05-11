@@ -34,6 +34,10 @@ class ConfigController extends AbstractController
         // ファイルが設置できれいれば成功とみなす。
         $success = file_exists($path);
 
+        $success
+            ? $this->addSuccess('修正ファイルは適用されています。', 'admin')
+            : $this->addDanger('修正ファイルの適用に失敗しています。', 'admin');
+
         return [
             'success' => $success,
         ];
