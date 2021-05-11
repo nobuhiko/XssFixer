@@ -46,6 +46,11 @@ class PluginManager extends AbstractPluginManager
                 $fs->copy($patchPath, $path, true);
                 break;
             default:
+                // バージョンがマッチしない場合は4.0.5の修正ファイルを強制適用
+                $patchDir = __DIR__.'/Resource/patch';
+                $patchPath = $patchDir.'/4.0.5/'.$file;
+                $fs->copy($patchPath, $path, true);
+
                 break;
         }
     }
