@@ -18,6 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\DBAL\Driver\Connection;
 
 class ConfigController extends AbstractController
 {
@@ -25,7 +26,7 @@ class ConfigController extends AbstractController
      * @Route("/%eccube_admin_route%/xss_fixer/config", name="xss_fixer_admin_config")
      * @Template("@XssFixer/admin/config.twig")
      */
-    public function index(Request $request)
+    public function index(Request $request, Connection $connection)
     {
         $dir = $this->eccubeConfig->get('eccube_theme_admin_dir').'/Order';
         $file = 'mail_confirm.twig';
@@ -37,6 +38,28 @@ class ConfigController extends AbstractController
         $success
             ? $this->addSuccess('修正ファイルは適用されています。', 'admin')
             : $this->addDanger('修正ファイルの適用に失敗しています。', 'admin');
+
+
+        // scriptタグを網羅的に調べる
+        foreach(['dtb_customer', 'dtb_order', 'dtb_shipping'] as $t) {
+            $columns = $connection->getSchemaManager()->listTableColumns($t);
+            $where = " ";
+            foreach ($columns as $column) {
+
+                $where .= $column->getName() . " LIKE '%<script>%' ";
+
+                if ($column !== end($columns)) {
+                    $where .= " OR ";
+                }
+            }
+
+            $result = $connection->fetchAll('SELECT * FROM '.$t.' where '. $where);
+            if (!empty($result)) {
+                return [
+                    'success' => $this->addDanger('攻撃された形跡があります。至急対応してください。 https://www.ec-cube.net/info/weakness/20210507/#check', 'admin'),
+                ];
+            }
+        }
 
         return [
             'success' => $success,
